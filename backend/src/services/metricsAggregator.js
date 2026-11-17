@@ -88,13 +88,13 @@ export const metricsAggregator = {
     ] = await Promise.all([
       prometheusService.getTargets(),
       prometheusService.queryInstant('up'),
-      prometheusService.queryInstant('open5gs_amf_registered_ue_total or amf_registered_ue_total or count(open5gs_amf_ue_state)'),
-      prometheusService.queryInstant('open5gs_smf_pdu_sessions_total or smf_pdu_sessions_total or count(open5gs_smf_session_state)'),
-      prometheusService.queryInstant('rate(open5gs_upf_rx_bytes_total[1m]) or rate(node_network_receive_bytes_total{device=~"ogstun|upf.*"}[1m])'),
-      prometheusService.queryInstant('rate(open5gs_upf_tx_bytes_total[1m]) or rate(node_network_transmit_bytes_total{device=~"ogstun|upf.*"}[1m])'),
-      prometheusService.queryInstant('ueransim_gnb_connected_ues or count(ueransim_gnb_ue_state) or gnb_connected_ues'),
-      prometheusService.queryInstant('ueransim_ue_pdu_session_active or ueransim_ue_registered or count(ueransim_ue_state) or ue_pdu_session_active'),
-      prometheusService.queryInstant('ueransim_gnb_amf_up or open5gs_amf_sctp_connections'),
+      prometheusService.queryInstant('sum(fivegs_amffunction_rm_registeredsubnbr)'),
+      prometheusService.queryInstant('sum(fivegs_smffunction_sm_sessionnbr)'),
+      prometheusService.queryInstant('rate(open5gs_upf_rx_bytes_total[1m])'),
+      prometheusService.queryInstant('rate(open5gs_upf_tx_bytes_total[1m])'),
+      prometheusService.queryInstant('sum(ueransim_ue_connected)'),
+      prometheusService.queryInstant('sum(fivegs_upffunction_upf_sessionnbr)'),
+      prometheusService.queryInstant('ueransim_gnb_sctp_connected'),
       prometheusService.queryInstant('ueransim_gnb_healthy'),
       prometheusService.queryInstant('ueransim_ue_registered'),
       prometheusService.queryInstant('ueransim_ue_connected'),
@@ -368,7 +368,7 @@ export const metricsAggregator = {
             : (n3Active ? 'USER PLANE ACTIVE' : 'TUNNEL READY (IDLE)')),
         operationalState: upfState.status === 'UP' ? (n3Active ? 'HEALTHY' : 'STANDBY') : (upfState.status === 'DOWN' ? 'DOWN' : 'UNAVAILABLE'),
         detail: n3Active
-          ? `Active User Data Routing (Rx: ${typeof upfRxRate === 'number' ? upfRxRate.toFixed(1) : 0} B/s)`
+          ? `Active User Data Routing (Rx: ${typeof upfRxRate === 'number' ? `${upfRxRate.toFixed(1)} B/s` : 'Unavailable'})`
           : 'Kernel ogstun Tunnel Bound (No Active User Sessions)',
         lastUpdated: timestamp,
       },
@@ -567,12 +567,12 @@ export const metricsAggregator = {
     const step = '15s';
 
     const queries = {
-      amfSctp: 'open5gs_amf_sctp_connections or count(open5gs_amf_ngap_messages_total)',
-      registeredUEs: 'open5gs_amf_registered_ue_total or count(open5gs_amf_ue_state)',
-      smfSessions: 'open5gs_smf_pdu_sessions_total or count(open5gs_smf_session_state)',
-      upfThroughputRx: 'rate(open5gs_upf_rx_bytes_total[1m]) or rate(node_network_receive_bytes_total{device=~"ogstun|upf.*"}[1m])',
-      upfThroughputTx: 'rate(open5gs_upf_tx_bytes_total[1m]) or rate(node_network_transmit_bytes_total{device=~"ogstun|upf.*"}[1m])',
-      gnbConnectedUEs: 'ueransim_gnb_connected_ues or count(ueransim_gnb_ue_state)',
+      amfSctp: 'ueransim_gnb_sctp_connected',
+      registeredUEs: 'sum(fivegs_amffunction_rm_registeredsubnbr)',
+      smfSessions: 'sum(fivegs_smffunction_sm_sessionnbr)',
+      upfThroughputRx: 'rate(open5gs_upf_rx_bytes_total[1m])',
+      upfThroughputTx: 'rate(open5gs_upf_tx_bytes_total[1m])',
+      gnbConnectedUEs: 'sum(ueransim_ue_connected)',
     };
 
     const results = {};
