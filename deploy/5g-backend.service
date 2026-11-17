@@ -1,0 +1,26 @@
+[Unit]
+Description=Private 5G NOC Monitoring Express Proxy
+After=network.target prometheus.service alertmanager.service
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/var/www/private-5g-noc/backend
+ExecStart=/usr/bin/node src/index.js
+Restart=always
+RestartSec=5
+Environment=NODE_ENV=production
+Environment=PORT=5001
+Environment=PROMETHEUS_URL=http://172.17.0.1:19091
+Environment=ALERTMANAGER_URL=http://172.17.0.1:19093
+
+# Security sandboxing options for systemd
+CapabilityBoundingSet=
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=read-only
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+

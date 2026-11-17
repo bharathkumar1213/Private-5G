@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Square-inspired application system: light, measured, and low contrast. */
+  --color-bg-app: #F1F4F7;
+  --color-bg-card: #FFFFFF;
+  --color-bg-card-subtle: #F5F7FA;
+  --color-bg-sidebar: #FFFFFF;
+  --color-border: #E9EDF2;
+  --color-text-main: #17213B;
+  --color-text-muted: #8995A8;
+  --color-accent: #F59E0B;
+  --shadow-surface: 0 12px 30px rgba(30, 54, 87, 0.07), 0 2px 8px rgba(30, 54, 87, 0.03);
+  --shadow-surface-hover: 0 18px 38px rgba(30, 54, 87, 0.11), 0 4px 12px rgba(30, 54, 87, 0.04);
+}
+
+html.dark {
+  /* NOC Dark Mode */
+  --color-bg-app: #0F172A;
+  --color-bg-card: #1A2438;
+  --color-bg-card-subtle: #202C43;
+  --color-bg-sidebar: #162036;
+  --color-border: #2B3B57;
+  --color-text-main: #F8FAFC;
+  --color-text-muted: #94A3B8;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-bg-app);
+    color: var(--color-text-main);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    overflow-x: hidden;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    letter-spacing: -0.01em;
+  }
+
+  code,
+  pre,
+  .font-mono {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+}
+
+@layer components {
+  .square-surface {
+    @apply bg-white border border-[#E9EDF2] rounded-[22px] shadow-square;
+  }
+
+  .square-section-label {
+    @apply text-[11px] font-bold uppercase tracking-[0.12em] text-[#8995A8];
+  }
+
+  .square-control {
+    @apply rounded-xl border border-[#E9EDF2] bg-white text-[#17213B] transition-colors hover:border-[#F2D39B] hover:bg-[#FFFAF1];
+  }
+}
+
+/* Crisp scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #CBD5D9;
+  border-radius: 3px;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8995A8;
+}
+
+/* 5G SVG Animated Flow Lines */
+@keyframes flowTeal {
+  from {
+    stroke-dashoffset: 24;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-flow-cyan {
+  stroke-dasharray: 6 6;
+  animation: flowTeal 1.4s linear infinite;
+}
+
+.animate-flow-blue {
+  stroke-dasharray: 6 6;
+  animation: flowTeal 1.6s linear infinite;
+}
+
+.animate-flow-purple {
+  stroke-dasharray: 6 6;
+  animation: flowTeal 1.8s linear infinite;
+}
+
+.animate-flow-emerald {
+  stroke-dasharray: 6 6;
+  animation: flowTeal 1.2s linear infinite;
+}
+
+.animate-flow-amber {
+  stroke-dasharray: 6 6;
+  animation: flowTeal 2.0s linear infinite;
+}
+
+.paused-animation {
+  animation-play-state: paused !important;
+}

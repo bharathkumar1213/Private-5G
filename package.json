@@ -1,0 +1,25 @@
+{
+  "name": "devops-private-5g-monitoring",
+  "version": "1.0.0",
+  "description": "DevOps Based Monitoring and Self-Healing for Private 5G Network",
+  "scripts": {
+    "install:all": "npm install --prefix backend && npm install --prefix frontend",
+    "dev:backend": "npm run dev --prefix backend",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "build:frontend": "npm run build --prefix frontend",
+    "start:backend": "npm run start --prefix backend"
+  },
+  "keywords": [
+    "5g",
+    "open5gs",
+    "ueransim",
+    "prometheus",
+    "alertmanager",
+    "devops",
+    "self-healing",
+    "noc"
+  ],
+  "author": "Engineering Project",
+  "license": "UNLICENSED"
+}
+

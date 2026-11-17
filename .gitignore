@@ -1,0 +1,36 @@
+# Dependencies
+node_modules
+node_modules/
+node_modules.nosync
+node_modules.nosync/
+*.nosync
+*.nosync/
+.pnp
+.pnp.js
+
+# Production build outputs
+dist/
+build/
+*.local
+
+# Environment files
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+logs/
+*.log
+
+# Editor & OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
